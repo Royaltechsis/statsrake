@@ -1,0 +1,1186 @@
+{
+ "meta": {
+  "checkedOn": "2026-10-31",
+  "fx": {
+   "ngnPerUsd": 1345.47,
+   "source": "https://open.er-api.com/v6/latest/USD",
+   "checkedOn": "2026-10-31"
+  },
+  "dataCostNgnPerGB": {
+   "value": 525,
+   "source": "https://bestbroadbanddeals.co.uk/mobiles/worldwide-data-pricing/",
+   "note": "Nigeria average $0.39/GB (Cable.co.uk study, page undated, may be 1 to 2 years old) at the rate above"
+  },
+  "networkMix": {
+   "source": "https://ncc.gov.ng/market-data-reports/industry-statistics",
+   "note": "NCC, Aug 2026, mobile subscriptions by generation: 2G 36.05%, 3G 4.27%, 4G 54.77%, 5G 4.92%. The split of 4G between carriers is our assumption."
+  }
+ },
+ "networks": [
+  {
+   "id": "mtn4g",
+   "name": "MTN 4G",
+   "mbps": 27.2,
+   "rttMs": 61,
+   "source": "https://ohayu.com/blog/best-mobile-networks-nigeria/",
+   "note": "SpeedGeo Q1 2026 average, quoted second-hand",
+   "verified": true
+  },
+  {
+   "id": "airtel4g",
+   "name": "Airtel 4G",
+   "mbps": 17.4,
+   "rttMs": 131,
+   "source": "https://ohayu.com/blog/best-mobile-networks-nigeria/",
+   "note": "SpeedGeo Q1 2026 average, quoted second-hand",
+   "verified": true
+  },
+  {
+   "id": "glo4g",
+   "name": "Glo 4G",
+   "mbps": 11.6,
+   "rttMs": 145,
+   "source": "https://ohayu.com/blog/best-mobile-networks-nigeria/",
+   "note": "SpeedGeo Q1 2026 average, quoted second-hand",
+   "verified": true
+  },
+  {
+   "id": "3g",
+   "name": "3G",
+   "mbps": 1.6,
+   "rttMs": 300,
+   "source": "https://github.com/GoogleChrome/lighthouse/blob/main/docs/throttling.md",
+   "note": "Standard lab profile (1.6 Mbps), latency raised to 300 ms; not measured in Nigeria",
+   "verified": false
+  },
+  {
+   "id": "2g",
+   "name": "2G (EDGE)",
+   "mbps": 0.28,
+   "rttMs": 800,
+   "source": "https://www.webpagetest.org/",
+   "note": "Standard 2G lab profile (280 Kbps, 800 ms); not measured in Nigeria",
+   "verified": false
+  },
+  {
+   "id": "badday",
+   "name": "Bad network day",
+   "mbps": 2,
+   "rttMs": 450,
+   "source": "",
+   "note": "Our assumption: congested 4G at night or in a crowded place",
+   "verified": false
+  }
+ ],
+ "services": [
+  {
+   "id": "vercel",
+   "name": "Vercel",
+   "category": "host",
+   "icon": "▲",
+   "detect": [
+    "next"
+   ],
+   "source": "https://vercel.com/pricing",
+   "checkedOn": "2026-10-31",
+   "plans": [
+    {
+     "id": "hobby",
+     "name": "Hobby",
+     "priceUSD": 0,
+     "verified": true,
+     "source": "https://vercel.com/docs/plans/hobby",
+     "limits": {
+      "bandwidthGB": 100,
+      "edgeRequests": 1000000,
+      "fnInvocations": 1000000,
+      "cpuHours": 4,
+      "memGBHours": 360,
+      "imageTransforms": 5000
+     },
+     "onExceed": "Hobby features pause until 30 days pass (Vercel docs)",
+     "notes": [
+      "Hobby is for non-commercial, personal use only (Vercel fair use guidelines). A paid client site should be on Pro."
+     ]
+    },
+    {
+     "id": "pro",
+     "name": "Pro",
+     "priceUSD": 20,
+     "creditUSD": 20,
+     "verified": true,
+     "source": "https://vercel.com/pricing",
+     "limits": {
+      "fnInvocations": 0,
+      "cpuHours": 0,
+      "memGBHours": 0,
+      "imageTransforms": 0
+     },
+     "overage": {
+      "fnInvocations": 6e-07,
+      "cpuHours": 0.128,
+      "memGBHours": 0.0106,
+      "imageTransforms": 5e-05
+     },
+     "notes": [
+      "$20 of usage credit included. CDN requests and data transfer are on Vercel's Flat Rate CDN, so we do not bill them here.",
+      "Usage prices are Vercel's 'starting at' rates; regions can cost more."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "netlify",
+   "name": "Netlify",
+   "category": "host",
+   "icon": "◆",
+   "detect": [
+    "@netlify/plugin-nextjs",
+    "netlify-cli"
+   ],
+   "source": "https://www.netlify.com/pricing/",
+   "checkedOn": "2026-10-31",
+   "creditFormula": {
+    "bandwidthGB": 20,
+    "edgeRequests": 0.0002,
+    "memGBHours": 10
+   },
+   "plans": [
+    {
+     "id": "free",
+     "name": "Free",
+     "priceUSD": 0,
+     "verified": true,
+     "source": "https://www.netlify.com/pricing/",
+     "limits": {
+      "credits": 300
+     },
+     "onExceed": "Site pauses when the 300 credit limit is used up",
+     "notes": [
+      "Credits: 20 per GB bandwidth, 2 per 10k web requests, 10 per GB-hour of compute."
+     ]
+    },
+    {
+     "id": "personal",
+     "name": "Personal",
+     "priceUSD": 9,
+     "verified": true,
+     "source": "https://www.netlify.com/pricing/",
+     "limits": {
+      "credits": 1000
+     },
+     "overage": {
+      "credits": 0.006666666666666667
+     },
+     "notes": [
+      "Extra credits only with auto recharge: $10 per 1,500."
+     ]
+    },
+    {
+     "id": "pro",
+     "name": "Pro (3,000 credits)",
+     "priceUSD": 20,
+     "verified": true,
+     "source": "https://www.netlify.com/pricing/",
+     "limits": {
+      "credits": 3000
+     },
+     "overage": {
+      "credits": 0.006666666666666667
+     },
+     "notes": [
+      "Per-seat and higher credit tiers exist; we use the base tier."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "neon",
+   "name": "Neon Postgres",
+   "category": "db",
+   "icon": "⛁",
+   "detect": [
+    "@neondatabase/serverless",
+    "@neondatabase/neon-js",
+    "@prisma/adapter-neon",
+    "@neondatabase/api-client"
+   ],
+   "source": "https://neon.com/pricing",
+   "checkedOn": "2026-10-31",
+   "plans": [
+    {
+     "id": "free",
+     "name": "Free",
+     "priceUSD": 0,
+     "verified": true,
+     "source": "https://neon.com/pricing",
+     "limits": {
+      "dbComputeHours": 100,
+      "dbStorageGB": 1,
+      "dbEgressGB": 5
+     },
+     "onExceed": "Compute is suspended until the month resets: your DB stops answering",
+     "notes": [
+      "100 CU-hours per project a month, 1 GB storage, 5 GB public egress, scales to zero after 5 min idle."
+     ]
+    },
+    {
+     "id": "launch",
+     "name": "Launch",
+     "priceUSD": 0,
+     "verified": true,
+     "source": "https://neon.com/pricing",
+     "limits": {
+      "dbComputeHours": 0,
+      "dbStorageGB": 0,
+      "dbEgressGB": 500
+     },
+     "overage": {
+      "dbComputeHours": 0.106,
+      "dbStorageGB": 0.35,
+      "dbEgressGB": 0.1
+     },
+     "notes": [
+      "Pure usage: $0.106 per CU-hour, $0.35 per GB-month. Neon says typical spend is about $15/month."
+     ]
+    },
+    {
+     "id": "scale",
+     "name": "Scale",
+     "priceUSD": 0,
+     "verified": true,
+     "source": "https://neon.com/pricing",
+     "limits": {
+      "dbComputeHours": 0,
+      "dbStorageGB": 0,
+      "dbEgressGB": 500
+     },
+     "overage": {
+      "dbComputeHours": 0.222,
+      "dbStorageGB": 0.35,
+      "dbEgressGB": 0.1
+     },
+     "notes": [
+      "$0.222 per CU-hour; adds SLAs and compliance."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "supabase",
+   "name": "Supabase",
+   "category": "db",
+   "icon": "⚡",
+   "detect": [
+    "@supabase/supabase-js",
+    "@supabase/ssr",
+    "@supabase/auth-helpers-nextjs"
+   ],
+   "source": "https://supabase.com/pricing",
+   "checkedOn": "2026-10-31",
+   "plans": [
+    {
+     "id": "free",
+     "name": "Free",
+     "priceUSD": 0,
+     "verified": true,
+     "source": "https://supabase.com/pricing",
+     "limits": {
+      "dbStorageGB": 0.5,
+      "dbEgressGB": 5,
+      "mau": 50000,
+      "fileStorageGB": 1,
+      "peakQps": 250
+     },
+     "onExceed": "Project goes read-only or is restricted until you upgrade",
+     "notes": [
+      "Free projects pause after 1 week of inactivity. Max 2 active projects.",
+      "The 250 queries/sec capacity is our rough estimate for the shared 500 MB instance, not a Supabase number."
+     ]
+    },
+    {
+     "id": "pro",
+     "name": "Pro",
+     "priceUSD": 25,
+     "verified": true,
+     "source": "https://supabase.com/pricing",
+     "limits": {
+      "dbStorageGB": 8,
+      "dbEgressGB": 250,
+      "mau": 100000,
+      "fileStorageGB": 100,
+      "peakQps": 500
+     },
+     "overage": {
+      "dbStorageGB": 0.125,
+      "dbEgressGB": 0.09,
+      "mau": 0.00325,
+      "fileStorageGB": 0.0213
+     },
+     "notes": [
+      "Includes $10 compute credit (one Micro instance, 1 GB RAM, 200 pooled connections). Spend cap is on by default.",
+      "The 500 queries/sec capacity for Micro is our rough estimate."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "firebase",
+   "name": "Firebase (Firestore)",
+   "category": "db",
+   "icon": "◉",
+   "detect": [
+    "firebase",
+    "firebase-admin",
+    "reactfire"
+   ],
+   "source": "https://firebase.google.com/pricing",
+   "checkedOn": "2026-10-31",
+   "plans": [
+    {
+     "id": "spark",
+     "name": "Spark (free)",
+     "priceUSD": 0,
+     "verified": true,
+     "source": "https://firebase.google.com/pricing",
+     "limits": {
+      "fsReadsDay": 50000,
+      "fsWritesDay": 20000,
+      "dbStorageGB": 1,
+      "dbEgressGB": 10,
+      "mau": 50000
+     },
+     "onExceed": "Firestore returns quota errors until midnight Pacific time",
+     "notes": [
+      "Daily quotas reset at midnight (Pacific)."
+     ]
+    },
+    {
+     "id": "blaze",
+     "name": "Blaze (pay as you go)",
+     "priceUSD": 0,
+     "verified": false,
+     "source": "https://cloud.google.com/firestore/pricing",
+     "limits": {
+      "fsReadsDay": 50000,
+      "fsWritesDay": 20000,
+      "dbStorageGB": 1,
+      "dbEgressGB": 10,
+      "mau": 50000
+     },
+     "overage": {
+      "fsReadsDay": 6e-07,
+      "fsWritesDay": 1.8e-06,
+      "dbStorageGB": 0.18,
+      "dbEgressGB": 0.12,
+      "mau": 0.0055
+     },
+     "notes": [
+      "Free Spark quota is included. Per-operation prices are from Google Cloud's Firestore page, not re-checked today, and vary by region (UNVERIFIED)."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "atlas",
+   "name": "MongoDB Atlas",
+   "category": "db",
+   "icon": "❦",
+   "detect": [
+    "mongoose",
+    "mongodb",
+    "@prisma/client-mongodb"
+   ],
+   "source": "https://www.mongodb.com/pricing",
+   "checkedOn": "2026-10-31",
+   "plans": [
+    {
+     "id": "m0",
+     "name": "Free (M0)",
+     "priceUSD": 0,
+     "verified": true,
+     "source": "https://www.mongodb.com/pricing",
+     "limits": {
+      "dbStorageGB": 0.5,
+      "peakQps": 100
+     },
+     "onExceed": "Writes are blocked at the storage cap; operations over the limit are throttled",
+     "notes": [
+      "512 MB storage (verified). The 100 operations/sec cap is from MongoDB's docs, not re-checked today (UNVERIFIED)."
+     ]
+    },
+    {
+     "id": "flex",
+     "name": "Flex",
+     "priceUSD": 8.03,
+     "verified": true,
+     "source": "https://www.mongodb.com/pricing",
+     "limits": {
+      "dbStorageGB": 5,
+      "peakQps": 500
+     },
+     "capUSD": 30,
+     "notes": [
+      "$0.011/hour base, capped at $30/month as ops grow. The 500 ops/sec figure is from MongoDB's docs (UNVERIFIED)."
+     ]
+    },
+    {
+     "id": "m10",
+     "name": "Dedicated M10",
+     "priceUSD": 56.94,
+     "verified": true,
+     "source": "https://www.mongodb.com/pricing",
+     "limits": {
+      "dbStorageGB": 10,
+      "peakQps": 2000
+     },
+     "notes": [
+      "Starts at $56.94/month. Ops capacity is our rough estimate."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "planetscale",
+   "name": "PlanetScale Postgres",
+   "category": "db",
+   "icon": "◇",
+   "detect": [
+    "@planetscale/database"
+   ],
+   "source": "https://planetscale.com/pricing",
+   "checkedOn": "2026-10-31",
+   "plans": [
+    {
+     "id": "single",
+     "name": "Single node",
+     "priceUSD": 5,
+     "verified": false,
+     "source": "https://planetscale.com/pricing",
+     "limits": {
+      "dbStorageGB": 10,
+      "peakQps": 800
+     },
+     "notes": [
+      "Starts at $5/month (verified). Storage and capacity numbers here are our assumptions (UNVERIFIED)."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "clerk",
+   "name": "Clerk",
+   "category": "auth",
+   "icon": "◐",
+   "detect": [
+    "@clerk/nextjs",
+    "@clerk/clerk-react",
+    "@clerk/clerk-js",
+    "@clerk/express"
+   ],
+   "source": "https://clerk.com/pricing",
+   "checkedOn": "2026-10-31",
+   "plans": [
+    {
+     "id": "hobby",
+     "name": "Hobby",
+     "priceUSD": 0,
+     "verified": true,
+     "source": "https://clerk.com/pricing",
+     "limits": {
+      "mau": 50000
+     },
+     "onExceed": "New users cannot sign up past 50,000 monthly retained users",
+     "notes": [
+      "50,000 monthly retained users per app."
+     ]
+    },
+    {
+     "id": "pro",
+     "name": "Pro",
+     "priceUSD": 25,
+     "verified": true,
+     "source": "https://clerk.com/pricing",
+     "limits": {
+      "mau": 50000
+     },
+     "overage": {
+      "mau": 0.02
+     },
+     "notes": [
+      "$25/month, or $20/month billed yearly. $0.02 per extra retained user."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "authjs",
+   "name": "Auth.js / NextAuth",
+   "category": "auth",
+   "icon": "◑",
+   "detect": [
+    "next-auth",
+    "@auth/core",
+    "better-auth",
+    "lucia"
+   ],
+   "source": "https://authjs.dev",
+   "checkedOn": "2026-10-31",
+   "plans": [
+    {
+     "id": "self",
+     "name": "Self-hosted (free)",
+     "priceUSD": 0,
+     "verified": true,
+     "source": "https://authjs.dev",
+     "limits": {},
+     "notes": [
+      "Open source, no bill. Sessions add database reads on every request."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "resend",
+   "name": "Resend",
+   "category": "email",
+   "icon": "✉",
+   "detect": [
+    "resend",
+    "@react-email/components"
+   ],
+   "source": "https://resend.com/pricing",
+   "checkedOn": "2026-10-31",
+   "plans": [
+    {
+     "id": "free",
+     "name": "Free",
+     "priceUSD": 0,
+     "verified": true,
+     "source": "https://resend.com/pricing",
+     "limits": {
+      "emails": 3000,
+      "emailsDay": 100
+     },
+     "onExceed": "Emails stop sending (password resets, receipts) until the limit resets",
+     "notes": [
+      "3,000 emails a month and 100 a day."
+     ]
+    },
+    {
+     "id": "pro",
+     "name": "Pro",
+     "priceUSD": 20,
+     "verified": true,
+     "source": "https://resend.com/pricing",
+     "limits": {
+      "emails": 50000
+     },
+     "overage": {
+      "emails": 0.0009
+     },
+     "notes": [
+      "50,000 a month, no daily limit, $0.90 per extra 1,000 with pay as you go."
+     ]
+    },
+    {
+     "id": "scale",
+     "name": "Scale",
+     "priceUSD": 90,
+     "verified": true,
+     "source": "https://resend.com/pricing",
+     "limits": {
+      "emails": 100000
+     },
+     "overage": {
+      "emails": 0.0009
+     },
+     "notes": [
+      "100,000 a month."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "smtp",
+   "name": "SMTP (Nodemailer)",
+   "category": "email",
+   "icon": "✉",
+   "detect": [
+    "nodemailer"
+   ],
+   "source": "https://support.google.com/a/answer/166852",
+   "checkedOn": "2026-10-31",
+   "plans": [
+    {
+     "id": "gmail",
+     "name": "Gmail SMTP",
+     "priceUSD": 0,
+     "verified": false,
+     "source": "https://support.google.com/a/answer/166852",
+     "limits": {
+      "emailsDay": 500
+     },
+     "onExceed": "Gmail blocks sending for up to 24 hours",
+     "notes": [
+      "Around 500 emails a day for a personal Gmail account (UNVERIFIED today). Many mails land in spam."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "cloudinary",
+   "name": "Cloudinary",
+   "category": "media",
+   "icon": "▣",
+   "detect": [
+    "cloudinary",
+    "next-cloudinary",
+    "@cloudinary/react",
+    "@cloudinary/url-gen"
+   ],
+   "source": "https://cloudinary.com/pricing",
+   "checkedOn": "2026-10-31",
+   "plans": [
+    {
+     "id": "free",
+     "name": "Free",
+     "priceUSD": 0,
+     "verified": true,
+     "source": "https://cloudinary.com/pricing",
+     "limits": {
+      "mediaCredits": 25
+     },
+     "onExceed": "Images stop being delivered or transformed until the next cycle",
+     "notes": [
+      "25 credits a month. 1 credit = 1 GB storage, or 1 GB image bandwidth, or 1,000 transformations."
+     ]
+    },
+    {
+     "id": "plus",
+     "name": "Plus",
+     "priceUSD": 99,
+     "verified": true,
+     "source": "https://cloudinary.com/pricing",
+     "limits": {
+      "mediaCredits": 225
+     },
+     "notes": [
+      "$99/month ($89 yearly), 225 credits."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "uploadthing",
+   "name": "UploadThing",
+   "category": "media",
+   "icon": "⇪",
+   "detect": [
+    "uploadthing",
+    "@uploadthing/react"
+   ],
+   "source": "https://uploadthing.com/pricing",
+   "checkedOn": "2026-10-31",
+   "plans": [
+    {
+     "id": "free",
+     "name": "Free (2GB)",
+     "priceUSD": 0,
+     "verified": true,
+     "source": "https://uploadthing.com/pricing",
+     "limits": {
+      "fileStorageGB": 2
+     },
+     "onExceed": "New uploads fail once 2 GB is used",
+     "notes": [
+      "2 GB storage, unlimited uploads and downloads."
+     ]
+    },
+    {
+     "id": "100gb",
+     "name": "100GB App",
+     "priceUSD": 10,
+     "verified": true,
+     "source": "https://uploadthing.com/pricing",
+     "limits": {
+      "fileStorageGB": 100
+     },
+     "notes": [
+      "$10/month."
+     ]
+    },
+    {
+     "id": "usage",
+     "name": "Usage based",
+     "priceUSD": 25,
+     "verified": true,
+     "source": "https://uploadthing.com/pricing",
+     "limits": {
+      "fileStorageGB": 250
+     },
+     "overage": {
+      "fileStorageGB": 0.08
+     },
+     "notes": [
+      "$25/month for 250 GB; the extra-GB price is our assumption (UNVERIFIED)."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "upstash",
+   "name": "Upstash Redis",
+   "category": "cache",
+   "icon": "⚑",
+   "detect": [
+    "@upstash/redis",
+    "@upstash/ratelimit",
+    "ioredis",
+    "redis"
+   ],
+   "source": "https://upstash.com/pricing/redis",
+   "checkedOn": "2026-10-31",
+   "plans": [
+    {
+     "id": "free",
+     "name": "Free",
+     "priceUSD": 0,
+     "verified": true,
+     "source": "https://upstash.com/pricing/redis",
+     "limits": {
+      "redisCommands": 500000
+     },
+     "onExceed": "Commands are rejected until the month resets",
+     "notes": [
+      "500K commands a month, 256 MB."
+     ]
+    },
+    {
+     "id": "payg",
+     "name": "Pay as you go",
+     "priceUSD": 0,
+     "verified": true,
+     "source": "https://upstash.com/pricing/redis",
+     "limits": {
+      "redisCommands": 0
+     },
+     "overage": {
+      "redisCommands": 2e-06
+     },
+     "notes": [
+      "$0.20 per 100K commands."
+     ]
+    },
+    {
+     "id": "fixed",
+     "name": "Fixed 250MB",
+     "priceUSD": 10,
+     "verified": true,
+     "source": "https://upstash.com/pricing/redis",
+     "limits": {},
+     "notes": [
+      "$10/month, unlimited commands, 50 GB bandwidth."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "paystack",
+   "name": "Paystack",
+   "category": "payments",
+   "icon": "₦",
+   "detect": [
+    "react-paystack",
+    "paystack",
+    "@paystack/inline-js",
+    "paystack-api",
+    "paystack-node"
+   ],
+   "source": "https://paystack.com/pricing",
+   "checkedOn": "2026-10-31",
+   "plans": [
+    {
+     "id": "standard",
+     "name": "Local cards & transfers",
+     "priceUSD": 0,
+     "verified": false,
+     "source": "https://paystack.com/pricing",
+     "fee": {
+      "pct": 1.5,
+      "flatNgn": 100,
+      "flatWaivedBelowNgn": 2500,
+      "capNgn": 2000
+     },
+     "limits": {},
+     "notes": [
+      "1.5% + ₦100 (₦100 waived under ₦2,500), capped at ₦2,000. Read from Paystack's page via search preview; the page blocked a direct load today, so treat as UNVERIFIED."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "flutterwave",
+   "name": "Flutterwave",
+   "category": "payments",
+   "icon": "₦",
+   "detect": [
+    "flutterwave-react-v3",
+    "flutterwave-node-v3",
+    "flutterwave-angular-v3"
+   ],
+   "source": "https://flutterwave.com/ng/pricing",
+   "checkedOn": "2026-10-31",
+   "plans": [
+    {
+     "id": "standard",
+     "name": "Local collections",
+     "priceUSD": 0,
+     "verified": true,
+     "source": "https://flutterwave.com/ng/pricing",
+     "fee": {
+      "pct": 2.0,
+      "flatNgn": 0,
+      "vatPct": 7.5
+     },
+     "limits": {},
+     "notes": [
+      "2% per local transaction (1.4% + 0.6% platform fee), plus 7.5% VAT on the fee. International: 4.8%."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "stripe",
+   "name": "Stripe",
+   "category": "payments",
+   "icon": "$",
+   "detect": [
+    "stripe",
+    "@stripe/stripe-js",
+    "@stripe/react-stripe-js"
+   ],
+   "source": "https://stripe.com/pricing",
+   "checkedOn": "2026-10-31",
+   "plans": [
+    {
+     "id": "standard",
+     "name": "Standard",
+     "priceUSD": 0,
+     "verified": true,
+     "source": "https://stripe.com/pricing",
+     "fee": {
+      "pct": 2.9,
+      "flatUsd": 0.3
+     },
+     "limits": {},
+     "notes": [
+      "2.9% + 30¢ for domestic cards, +1.5% for international cards. Stripe does not onboard Nigerian businesses directly."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "openai",
+   "name": "OpenAI API",
+   "category": "ai",
+   "icon": "✦",
+   "detect": [
+    "openai",
+    "@ai-sdk/openai"
+   ],
+   "source": "https://developers.openai.com/api/docs/pricing",
+   "checkedOn": "2026-10-31",
+   "plans": [
+    {
+     "id": "luna",
+     "name": "gpt-6-luna",
+     "priceUSD": 0,
+     "verified": true,
+     "source": "https://developers.openai.com/api/docs/pricing",
+     "tokens": {
+      "inPerM": 0.1,
+      "outPerM": 0.5
+     },
+     "limits": {}
+    },
+    {
+     "id": "terra",
+     "name": "gpt-6.1-terra",
+     "priceUSD": 0,
+     "verified": true,
+     "source": "https://developers.openai.com/api/docs/pricing",
+     "tokens": {
+      "inPerM": 1.0,
+      "outPerM": 5.0
+     },
+     "limits": {}
+    },
+    {
+     "id": "sol",
+     "name": "gpt-6.1-sol",
+     "priceUSD": 0,
+     "verified": true,
+     "source": "https://developers.openai.com/api/docs/pricing",
+     "tokens": {
+      "inPerM": 2.0,
+      "outPerM": 10.0
+     },
+     "limits": {}
+    }
+   ]
+  },
+  {
+   "id": "anthropic",
+   "name": "Anthropic API",
+   "category": "ai",
+   "icon": "✦",
+   "detect": [
+    "@anthropic-ai/sdk",
+    "@ai-sdk/anthropic"
+   ],
+   "source": "https://www.anthropic.com/pricing",
+   "checkedOn": "2026-10-31",
+   "plans": [
+    {
+     "id": "haiku",
+     "name": "Haiku 5.5",
+     "priceUSD": 0,
+     "verified": true,
+     "source": "https://www.anthropic.com/pricing",
+     "tokens": {
+      "inPerM": 0.1,
+      "outPerM": 0.5
+     },
+     "limits": {}
+    },
+    {
+     "id": "sonnet",
+     "name": "Sonnet 5.5",
+     "priceUSD": 0,
+     "verified": true,
+     "source": "https://www.anthropic.com/pricing",
+     "tokens": {
+      "inPerM": 2.0,
+      "outPerM": 10.0
+     },
+     "limits": {}
+    },
+    {
+     "id": "opus",
+     "name": "Opus 5.5",
+     "priceUSD": 0,
+     "verified": true,
+     "source": "https://www.anthropic.com/pricing",
+     "tokens": {
+      "inPerM": 4.0,
+      "outPerM": 20.0
+     },
+     "limits": {}
+    }
+   ]
+  },
+  {
+   "id": "gemini",
+   "name": "Google Gemini API",
+   "category": "ai",
+   "icon": "✦",
+   "detect": [
+    "@google/generative-ai",
+    "@google/genai",
+    "@ai-sdk/google"
+   ],
+   "source": "https://ai.google.dev/gemini-api/docs/pricing",
+   "checkedOn": "2026-10-31",
+   "plans": [
+    {
+     "id": "flashlite",
+     "name": "Gemini 3.1 Flash-Lite",
+     "priceUSD": 0,
+     "verified": true,
+     "source": "https://ai.google.dev/gemini-api/docs/pricing",
+     "tokens": {
+      "inPerM": 0.25,
+      "outPerM": 1.5
+     },
+     "limits": {}
+    },
+    {
+     "id": "flash",
+     "name": "Gemini 3.8 Flash",
+     "priceUSD": 0,
+     "verified": true,
+     "source": "https://ai.google.dev/gemini-api/docs/pricing",
+     "tokens": {
+      "inPerM": 0.75,
+      "outPerM": 3.75
+     },
+     "limits": {},
+     "notes": [
+      "Promo price through Dec 31, 2026; doubles to $1.50 / $7.50 from Jan 1, 2027."
+     ]
+    },
+    {
+     "id": "free",
+     "name": "Free tier",
+     "priceUSD": 0,
+     "verified": false,
+     "source": "https://ai.google.dev/gemini-api/docs/pricing",
+     "tokens": {
+      "inPerM": 0,
+      "outPerM": 0
+     },
+     "limits": {
+      "aiCallsDay": 250
+     },
+     "onExceed": "Requests are rate limited (429 errors)",
+     "notes": [
+      "Free tier exists; the daily request cap shown here is our assumption (UNVERIFIED), and Google may use free-tier data to improve products."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pusher",
+   "name": "Pusher Channels",
+   "category": "realtime",
+   "icon": "⇄",
+   "detect": [
+    "pusher",
+    "pusher-js"
+   ],
+   "source": "https://pusher.com/channels/pricing",
+   "checkedOn": "2026-10-31",
+   "plans": [
+    {
+     "id": "sandbox",
+     "name": "Sandbox",
+     "priceUSD": 0,
+     "verified": true,
+     "source": "https://pusher.com/channels/pricing",
+     "limits": {
+      "rtMessagesDay": 200000,
+      "rtConcurrent": 100
+     },
+     "onExceed": "New connections are refused past 100; messages stop for the day",
+     "notes": [
+      "200k messages a day, 100 concurrent connections."
+     ]
+    },
+    {
+     "id": "startup",
+     "name": "Startup",
+     "priceUSD": 49,
+     "verified": true,
+     "source": "https://pusher.com/channels/pricing",
+     "limits": {
+      "rtMessagesDay": 1000000,
+      "rtConcurrent": 500
+     }
+    },
+    {
+     "id": "pro",
+     "name": "Pro",
+     "priceUSD": 99,
+     "verified": true,
+     "source": "https://pusher.com/channels/pricing",
+     "limits": {
+      "rtMessagesDay": 4000000,
+      "rtConcurrent": 2000
+     }
+    }
+   ]
+  },
+  {
+   "id": "socketio",
+   "name": "Socket.IO server",
+   "category": "realtime",
+   "icon": "⇄",
+   "detect": [
+    "socket.io",
+    "socket.io-client",
+    "ws"
+   ],
+   "source": "https://vercel.com/docs/limits",
+   "checkedOn": "2026-10-31",
+   "plans": [
+    {
+     "id": "self",
+     "name": "Self-hosted",
+     "priceUSD": 0,
+     "verified": true,
+     "source": "https://vercel.com/docs/limits",
+     "limits": {},
+     "notes": [
+      "Needs a long-running server. Serverless hosts (Vercel, Netlify) cannot keep WebSocket connections open."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sentry",
+   "name": "Sentry",
+   "category": "monitoring",
+   "icon": "⚠",
+   "detect": [
+    "@sentry/nextjs",
+    "@sentry/react",
+    "@sentry/node",
+    "@sentry/browser"
+   ],
+   "source": "https://sentry.io/pricing/",
+   "checkedOn": "2026-10-31",
+   "plans": [
+    {
+     "id": "developer",
+     "name": "Developer",
+     "priceUSD": 0,
+     "verified": true,
+     "source": "https://sentry.io/pricing/",
+     "limits": {
+      "errors": 5000
+     },
+     "onExceed": "Errors past 5k are dropped: you go blind during the outage",
+     "notes": [
+      "1 user, 5k errors a month."
+     ]
+    },
+    {
+     "id": "team",
+     "name": "Team",
+     "priceUSD": 26,
+     "verified": true,
+     "source": "https://sentry.io/pricing/",
+     "limits": {
+      "errors": 50000
+     },
+     "notes": [
+      "$26/month billed yearly, 50k errors."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "railway",
+   "name": "Railway",
+   "category": "server",
+   "icon": "▤",
+   "detect": [],
+   "source": "https://railway.com/pricing",
+   "checkedOn": "2026-10-31",
+   "plans": [
+    {
+     "id": "hobby",
+     "name": "Hobby",
+     "priceUSD": 5,
+     "verified": true,
+     "source": "https://railway.com/pricing",
+     "limits": {},
+     "notes": [
+      "$5 minimum usage, includes $5 of usage. Good home for a Socket.IO or cron server."
+     ]
+    }
+   ]
+  }
+ ]
+}
