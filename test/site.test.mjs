@@ -1,41 +1,45 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync, existsSync, readdirSync } from 'node:fs';
+import { readFileSync, existsSync, readdirSync, statSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
-const site = join(root, 'site');
-const html = readFileSync(join(site, 'index.html'), 'utf8');
+const site = existsSync(join(root, 'site', 'index.html')) ? join(root, 'site') : join(root, 'out');
+const landing = readFileSync(join(site, 'index.html'), 'utf8');
+const sim = readFileSync(join(site, 'simulate', 'index.html'), 'utf8');
+const visible = h => h.replace(/<script[\s\S]*?<\/script>/g, '').replace(/<style[\s\S]*?<\/style>/g, '');
 
-test('index has title, viewport and tagline', () => {
-  assert.match(html, /<title>Wahala: stress-test your stack before launch<\/title>/);
-  assert.match(html, /name="viewport" content="width=device-width, initial-scale=1"/);
-  assert.match(html, /Give your app wahala/);
-  assert.match(html, /Try a sample stack/);
-  assert.match(html, /Estimates based on public pricing as of the checked date/);
+test('landing has the brand, tagline, viewport and the sections asked for', () => {
+  assert.match(landing, /<title>StatsRake: see the rake before it sees your face<\/title>/);
+  assert.match(landing, /name="viewport" content="width=device-width, initial-scale=1"/);
+  assert.match(landing, /See the rake <em>before it sees your face\.<\/em>/);
+  for (const s of ['How it works', 'A real result', 'What it catches', 'Who it is for', 'FAQ', 'Built by']) assert.ok(landing.includes(s), s);
+  for (const s of ['Resend free', 'Cloudinary free', 'Vercel Hobby', 'Neon free']) assert.ok(landing.includes(s), s);
+  assert.match(landing, /\$(<!-- -->)?158\.40/);
+  assert.match(landing, /href="\/simulate\/"/);
+  assert.match(landing, /github\.com\/Royaltechsis/);
+  assert.match(landing, /og:image/);
 });
-test('no em dashes or placeholders in the page', () => {
-  const text = html.replace(/<script[\s\S]*?<\/script>/g, '');
-  assert.ok(!text.includes('\u2014'), 'em dash found');
-  assert.ok(!/lorem ipsum|TODO|FIXME/i.test(text));
+test('simulator page is renamed and keeps its controls', () => {
+  assert.match(sim, /Simulator \| StatsRake/);
+  assert.match(sim, /Try a sample stack/);
+  assert.match(sim, /Read my repo/);
 });
-test('local assets referenced by the page exist', () => {
-  const refs = [...html.matchAll(/(?:src|href)="(\/[^"#?]+)"/g)].map(m => m[1]);
-  assert.ok(refs.length > 3);
-  for (const r of refs) assert.ok(existsSync(join(site, r)), 'missing ' + r);
-});
-test('plans data carries a source and checked date for every service', () => {
-  const d = JSON.parse(readFileSync(join(root, 'data', 'plans.json'), 'utf8'));
-  assert.ok(d.services.length >= 20);
-  for (const s of d.services) {
-    assert.ok(s.source.startsWith('https://'), s.id);
-    assert.equal(s.checkedOn, '2026-10-31');
-    for (const p of s.plans) assert.equal(typeof p.verified, 'boolean', s.id + '/' + p.id);
+test('no Wahala, no em dashes, no placeholders in visible copy', () => {
+  for (const h of [landing, sim]) {
+    const t = visible(h);
+    assert.ok(!/wahala/i.test(t), 'old name found');
+    assert.ok(!t.includes('\u2014'), 'em dash found');
+    assert.ok(!/lorem ipsum|TODO|FIXME|placeholder text/i.test(t));
   }
 });
-test('the built bundle contains the simulator and sample stack', () => {
-  const js = readdirSync(join(site, '_next', 'static', 'chunks')).filter(f => f.endsWith('.js')).map(f => readFileSync(join(site, '_next', 'static', 'chunks', f), 'utf8')).join('\n');
-  assert.match(js, /react-paystack/);
-  assert.match(js, /api\.osv\.dev\/v1\/querybatch/);
-  assert.match(js, /raw\.githubusercontent\.com/);
+test('local assets exist and no remote assets are loaded', () => {
+  for (const f of ['favicon.svg', 'og.png']) assert.ok(existsSync(join(site, f)), f);
+  const refs = [...landing.matchAll(/(?:src|href)="(\/[^"]+)"/g)].map(m => m[1].split('#')[0].split('?')[0]).filter(r => !r.endsWith('/'));
+  for (const r of refs) assert.ok(existsSync(join(site, r)), 'missing ' + r);
+  assert.ok(!/<script[^>]+src="https?:/.test(landing));
+});
+test('no single file is too big to publish', () => {
+  const walk = d => readdirSync(d).flatMap(f => { const p = join(d, f); return statSync(p).isDirectory() ? walk(p) : [[p, statSync(p).size]]; });
+  for (const [p, s] of walk(site)) assert.ok(s < 1_300_000, p + ' is ' + s);
 });

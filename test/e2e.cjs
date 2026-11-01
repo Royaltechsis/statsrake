@@ -2,8 +2,8 @@
 let pw; try { pw = require('playwright-core'); } catch { pw = require('/home/user/node_modules/playwright-core'); }
 const { chromium } = pw;
 const EXE = process.env.CHROME_PATH || '/usr/bin/chromium';
-const BASE = process.argv[2] || 'http://127.0.0.1:8811/';
-const OUT = process.argv[3] || '/tmp/wahala_shots';
+const BASE = (process.argv[2] || 'http://127.0.0.1:8811/').replace(/\/?$/, '/') + 'simulate/';
+const OUT = process.argv[3] || '/tmp/statsrake_shots';
 const fs = require('fs'); fs.mkdirSync(OUT, { recursive: true });
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const log = (...a) => console.log(...a);

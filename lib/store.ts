@@ -5,7 +5,7 @@
 export interface SavedReport { id: string; createdAt: string; title: string; hash: string; monthlyUSD: number }
 export interface ReportStore { save(r: SavedReport): Promise<void>; list(): Promise<SavedReport[]> }
 
-const KEY = 'wahala.reports.v1';
+const KEY = 'statsrake.reports.v1';
 export class LocalReportStore implements ReportStore {
   async list() { try { return JSON.parse(localStorage.getItem(KEY) || '[]') as SavedReport[]; } catch { return []; } }
   async save(r: SavedReport) { const all = (await this.list()).filter(x => x.id !== r.id); all.unshift(r); localStorage.setItem(KEY, JSON.stringify(all.slice(0, 20))); }
