@@ -148,8 +148,11 @@ details summary{cursor:pointer;color:var(--mut);font-size:14px;margin-top:10px}
 .rk.ar .rk-lbl{left:auto;right:10px;transform:none}
 .rk.on .rk-lbl{border-color:var(--red);background:#2a1719}
 .rk.paying.on .rk-lbl{border-color:var(--blue);background:#14213a}
-.rk:hover .rk-handle,.rk.smack .rk-handle{animation:swing .9s ease-out}
-.rk.smack .pow,.rk:hover .pow{animation:pow .9s ease-out}
+@keyframes swingup{0%{transform:rotate(0)}30%{transform:rotate(-84deg)}55%{transform:rotate(-66deg)}100%{transform:rotate(-70deg)}}
+.rk:hover .rk-handle{animation:swing .9s ease-out}
+.rk.on .rk-handle{transform:rotate(-70deg)}
+.rk.smack .rk-handle{animation:swingup .7s ease-out forwards}
+.rk.smack .pow,.rk:hover .pow{animation:pow 1s ease-out}
 .rt-axis{position:relative;height:20px;margin:6px 26px 0;font-size:11px;color:var(--mut);font-family:var(--mono)}
 .rt-axis span{position:absolute;transform:translateX(-50%);white-space:nowrap}
 .rt-axis span:first-child{transform:none}
