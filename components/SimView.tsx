@@ -8,7 +8,7 @@ type N = { id: string; label: string; sub: string; x: number; y: number; state?:
 const W = 130, H = 58;
 const HOST_KEYS = new Set(['bandwidthGB', 'edgeRequests', 'imageTransforms', 'credits']);
 const FN_KEYS = new Set(['fnInvocations', 'cpuHours', 'memGBHours', 'credits']);
-const COLORS = { ok: '#c6f432', warn: '#ffb547', over: '#ff5a5f', paying: '#6aa9ff' } as const;
+const COLORS = { ok: '#0f8a5f', warn: '#b7791f', over: '#c2410c', paying: '#0a7ea8' } as const;
 
 function subset(st: NodeState | undefined, keys: Set<string>): NodeState | undefined {
   if (!st) return st;
@@ -104,7 +104,7 @@ export default function SimView({ res, sel, onDone }: { res: SimResult; sel: Sel
         const qx = (1 - d.t) * (1 - d.t) * x1 + 2 * (1 - d.t) * d.t * cx + d.t * d.t * x2;
         const qy = (1 - d.t) * (1 - d.t) * y1 + 2 * (1 - d.t) * d.t * cy + d.t * d.t * y2;
         d.el.setAttribute('cx', qx.toFixed(1)); d.el.setAttribute('cy', qy.toFixed(1));
-        d.el.setAttribute('fill', blocked ? '#ff5a5f' : ed.st?.status === 'warn' ? '#ffb547' : '#c6f432');
+        d.el.setAttribute('fill', blocked ? '#c2410c' : ed.st?.status === 'warn' ? '#b7791f' : '#0f8a5f');
         d.el.setAttribute('opacity', blocked && d.t > 0.6 ? String(1 - (d.t - 0.6) * 4) : '0.95');
       }
       raf = requestAnimationFrame(tick);
@@ -126,32 +126,32 @@ export default function SimView({ res, sel, onDone }: { res: SimResult; sel: Sel
         {frame.feesUSD > 0 && <div><span className="lbl">Payment fees</span><span className="big-num" style={{ fontSize: 18 }}>₦{Math.round(frame.feesUSD * FX).toLocaleString('en-US')}</span></div>}
       </div>
       <svg className="diagram" viewBox={`0 0 ${VW} ${VH}`} role="img" aria-label={`Stack simulation, ${frame.label}`}>
-        <defs><pattern id="gr" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="#141b25" strokeWidth="1" /></pattern></defs>
+        <defs><pattern id="gr" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="#e8eef5" strokeWidth="1" /></pattern></defs>
         <rect x="0" y="0" width={VW} height={VH} fill="url(#gr)" />
         {nodes.filter(n => n.from).map(n => { const a = nodes.find(x => x.id === n.from)!; return <path key={'e' + n.id} className={'edge' + (states[n.id]?.status === 'over' ? ' hot' : '')} d={path(a, n)} />; })}
         <g ref={gRef} />
         {nodes.map(n => {
           if (n.id === 'users') return (
             <g key={n.id} className="node" transform={`translate(${n.x},${n.y})`}>
-              <circle r="40" fill="#121923" stroke="#c6f432" strokeWidth="1.5" />
+              <circle r="40" fill="#ffffff" stroke="#0f8a5f" strokeWidth="1.5" />
               <text className="t1" textAnchor="middle" y="-2">{frame.dau >= 1000 ? (frame.dau / 1000).toFixed(1) + 'k' : frame.dau}</text>
               <text className="t2" textAnchor="middle" y="14">users today</text>
             </g>);
           const st = states[n.id];
           const pct = st ? Math.min(1, st.pct) : 0;
-          const col = st ? COLORS[st.status] : '#3a4a60';
+          const col = st ? COLORS[st.status] : '#9fb3c8';
           return (
             <g key={n.id} className={'node ' + (st?.status || '')} data-node={n.id} data-status={st?.status || 'none'} transform={`translate(${n.x - W / 2},${n.y - H / 2})`}>
               <rect className="box" width={W} height={H} rx="12" />
               <text className="t1" x="10" y="20">{n.label.length > 16 ? n.label.slice(0, 15) + '…' : n.label}</text>
               <text className="t2" x="10" y="34">{n.sub.length > 20 ? n.sub.slice(0, 19) + '…' : n.sub}</text>
-              <rect x="10" y="43" width={W - 54} height="6" rx="3" fill="#1d2633" />
+              <rect x="10" y="43" width={W - 54} height="6" rx="3" fill="#e3eaf2" />
               <rect x="10" y="43" width={(W - 54) * pct} height="6" rx="3" fill={col} style={{ transition: 'width .25s' }} />
               <text className="pct" x={W - 10} y="50" textAnchor="end" fill={col}>{st ? (st.status === 'paying' && !st.metrics.length ? '$' + st.costUSD.toFixed(0) : Math.round(st.pct * 100) + '%') : ''}</text>
             </g>);
         })}
       </svg>
-      <div className="legend"><span><i style={{ background: '#c6f432' }} />within plan</span><span><i style={{ background: '#ffb547' }} />75% used</span><span><i style={{ background: '#ff5a5f' }} />limit hit, users feel it</span><span><i style={{ background: '#6aa9ff' }} />paying per use</span></div>
+      <div className="legend"><span><i style={{ background: '#0f8a5f' }} />within plan</span><span><i style={{ background: '#b7791f' }} />75% used</span><span><i style={{ background: '#c2410c' }} />limit hit, users feel it</span><span><i style={{ background: '#0a7ea8' }} />paying per use</span></div>
       <div className="controls noprint">
         <button className="btn ghost" onClick={() => { if (step >= steps - 1) setStep(0); setPlaying(p => !p); }} aria-label={playing ? 'Pause' : 'Play'}>{playing ? 'Pause' : step >= steps - 1 ? 'Replay' : 'Play'}</button>
         <input type="range" min={0} max={steps - 1} value={step} onChange={e => { setPlaying(false); setStep(+e.target.value); }} aria-label="Timeline" />

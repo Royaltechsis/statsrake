@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   twitter: { card: 'summary_large_image', title: 'StatsRake', description: 'See the rake before it sees your face.', images: ['/og.png'] },
   icons: { icon: '/favicon.svg' },
 };
-export const viewport: Viewport = { width: 'device-width', initialScale: 1, themeColor: '#0c0f14' };
+export const viewport: Viewport = { width: 'device-width', initialScale: 1, themeColor: '#f5f7fa' };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (<html lang="en"><body>{children}</body></html>);

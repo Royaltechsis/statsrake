@@ -33,6 +33,19 @@ test('no Wahala, no em dashes, no placeholders in visible copy', () => {
     assert.ok(!/lorem ipsum|TODO|FIXME|placeholder text/i.test(t));
   }
 });
+test('blueprint art replaces the mascot', () => {
+  assert.match(landing, /A rake drawn as a technical schematic/);
+  assert.match(landing, /14 DAYS TO HOSTING LIMIT/);
+  assert.match(landing, /Drawn by/);
+  for (const h of [landing, sim]) {
+    const t = visible(h);
+    assert.ok(!/SMACK!|mascot|clipboard/i.test(t), 'cartoon leftovers found');
+  }
+  const fav = readFileSync(join(site, 'favicon.svg'), 'utf8');
+  assert.match(fav, /#ffb347/);
+  assert.ok(!/clipboard|eye/i.test(fav));
+  for (const f of ['fonts/SpaceGrotesk.woff2', 'fonts/PlexMono-400.woff2']) assert.ok(existsSync(join(site, f)), f);
+});
 test('local assets exist and no remote assets are loaded', () => {
   for (const f of ['favicon.svg', 'og.png']) assert.ok(existsSync(join(site, f)), f);
   const refs = [...landing.matchAll(/(?:src|href)="(\/[^"]+)"/g)].map(m => m[1].split('#')[0].split('?')[0]).filter(r => !r.endsWith('/'));

@@ -19,7 +19,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
     await p.click('#skip'); await p.waitForSelector('#raketimeline');
     await p.evaluate(() => { const el = document.querySelector('#results'); window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY - 10); }); await sleep(600);
     // tap third rake
-    const rk = await p.$$('.rk'); if (rk[2]) { await rk[2].click(); await sleep(1300); }
+    const rk = await p.$$('.rk'); if (rk[2]) { await rk[2].click(); await sleep(700); }
     await p.screenshot({ path: `${OUT}/results_${name}.png` });
     const ow2 = await p.evaluate(() => document.documentElement.scrollWidth); errs.push(`${name} sim scrollWidth ${ow2}`);
     await ctx.close();

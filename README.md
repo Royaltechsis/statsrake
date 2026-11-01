@@ -45,7 +45,9 @@ Import the repo on vercel.com/new and press Deploy. No settings to change.
 - `app/page.tsx` landing page
 - `app/simulate/page.tsx` the simulator
 - `components/RakeTimeline.tsx` the rake timeline in the results
-- `components/Rake.tsx` the mascot, logo and rake art (hand-built SVG)
+- `components/Rake.tsx` the small schematic rake mark (logo, favicon, timeline markers)
+- `components/BlueprintRake.tsx` the blueprint rake drawing used as hero art (hand-built, responsive SVG)
+- `public/fonts/` Space Grotesk and IBM Plex Mono (SIL Open Font License), self-hosted
 - `components/SimView.tsx` the animated stack diagram
 - `lib/` detection, simulation, pricing advice, network model, package health
 - `data/plans.json` plans, limits, prices, sources

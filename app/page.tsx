@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { DATA } from '../lib/plans';
-import { Mascot, RakeMark, RakeIcon } from '../components/Rake';
+import { RakeMark } from '../components/Rake';
+import BlueprintRake from '../components/BlueprintRake';
 
 const FX = DATA.meta.fx.ngnPerUsd;
 const STAY_UP = 158.4036; // from the simulator's sample run (lib/sample.ts), Oct 31 2026 prices
@@ -41,26 +42,22 @@ export default function Landing() {
             </div>
             <p className="note">Free. No sign up. Runs in your browser.</p>
           </div>
-          <div className="lp-art"><Mascot className="mascot" /></div>
+          <figure className="sheet" aria-label="Engineering drawing of a rake: one tine per day, with the days each free tier breaks marked">
+            <div className="sheet-h"><span>Fig. 1 / Sample stack</span><span>1 tine = 1 day</span></div>
+            <BlueprintRake n={20} ticks={[1, 5, 10, 15, 20]} idPrefix="hero" headLabel="HEAD / 20 DAYS OF TRAFFIC"
+              marks={SAMPLE.map(r => ({ step: r.day, tag: 'D' + r.day, name: r.name, kind: 'break' as const }))}
+              dimTo={14} dimText="14 DAYS TO HOSTING LIMIT"
+              ariaLabel="A rake drawn as a technical schematic. Its 20 tines are days. Tines 1, 10, 14 and 17 are marked: Resend free, Cloudinary free, Vercel Hobby and Neon free. A dimension line reads 14 days to hosting limit." />
+            <div className="tblock">
+              <div><span className="k">Load case</span><span className="v">800 DAU · 5x spike · +25%/mo</span></div>
+              <div><span className="k">Cost to stay up</span><span className="v cost">${STAY_UP.toFixed(0)}/mo ≈ {ngn(STAY_UP).replace(/,\d{3}$/, 'k')}</span></div>
+              <div><span className="k">Drawn by</span><span className="v">Oluwabunmi Oseni</span></div>
+              <div className="tb-cta"><Link className="btn" href="/simulate/?sample=1">Run this load case</Link></div>
+            </div>
+          </figure>
         </section>
 
-        <section className="teaser" aria-label="Animated example: a 30 day timeline with four rakes">
-          <div className="teaser-head"><span>Sample stack, 30 days</span><span className="mono">800 daily users · 5x launch spike · +25% a month</span></div>
-          <div className="teaser-field">
-            <div className="walker" aria-hidden="true">your app</div>
-            {SAMPLE.map((r, i) => (
-              <div key={r.day} className="t-rake" style={{ left: `${((r.day - 1) / 29) * 100}%`, ['--p' as any]: (r.day - 1) / 29, ['--r' as any]: i }}>
-                <span className="t-stem" />
-                <span className="t-lbl"><b>D{r.day}</b> {r.name}</span>
-                <span className="t-ic"><RakeIcon size={52} /><span className="pow">SMACK!</span></span>
-              </div>
-            ))}
-            <div className="rt-grass" />
-          </div>
-          <div className="rt-axis" aria-hidden="true">{[1, 7, 14, 21, 30].map(t => <span key={t} style={{ left: `${((t - 1) / 29) * 100}%` }}><i className="dw">Day </i>{t}</span>)}</div>
-        </section>
-
-        <section className="lp-sec gag">
+        <section className="lp-sec gag" aria-label="General note">
           <p>You know the cartoon. Somebody walks across the lawn, steps on a rake hiding in the grass, and the handle comes up and smacks them in the face. They never saw it coming.</p>
           <p><strong>Free tiers work exactly like that.</strong> Two quiet weeks, everything green, then day 14 arrives and your host pauses the site while you are asleep. StatsRake is the statistics that show you every rake in the grass before you step on one.</p>
         </section>
@@ -76,7 +73,7 @@ export default function Landing() {
 
         <section className="lp-sec" id="example" aria-labelledby="ex-h">
           <h2 id="ex-h">A real result</h2>
-          <p className="sub">The sample stack every new visitor can run: Next.js on Vercel Hobby, Neon, Resend, Cloudinary, Paystack, NextAuth. <span className="mono">800 daily users, a 5x launch spike on day 1, growing 25% a month.</span></p>
+          <p className="sub">The sample stack every new visitor can run: Next.js on Vercel Hobby, Neon, Resend, Cloudinary, Paystack, NextAuth. <span>800 daily users, a 5x launch spike on day 1, growing 25% a month.</span></p>
           <div className="ex">
             <ul className="ex-list">
               {SAMPLE.map(r => (
@@ -97,10 +94,10 @@ export default function Landing() {
         <section className="lp-sec" aria-labelledby="catch-h">
           <h2 id="catch-h">What it catches</h2>
           <div className="catch">
-            <div><h3><span className="dot red" />Free-tier cliffs</h3><p>Emails per day, edge requests, compute hours, credits, storage. The day each one runs out, and what breaks for users when it does.</p></div>
-            <div><h3><span className="dot amb" />Cost surprises</h3><p>The monthly bill to stay up, in dollars and naira at the live rate, and which upgrade or swap is cheapest for your load.</p></div>
-            <div><h3><span className="dot blue" />Slow on 2G and 3G</h3><p>About 36% of Nigerian mobile subscriptions were still on 2G in August 2026 (NCC). See load times on 2G, 3G and 4G, and the data cost of each visit.</p></div>
-            <div><h3><span className="dot lime" />Vulnerable packages</h3><p>Every dependency checked live against npm and the OSV database. On its first run it flagged a critical remote code execution bug in next 14.2.35.</p></div>
+            <div><h3><span className="dot red" aria-hidden="true" />Free-tier cliffs</h3><p>Emails per day, edge requests, compute hours, credits, storage. The day each one runs out, and what breaks for users when it does.</p></div>
+            <div><h3><span className="dot amb" aria-hidden="true" />Cost surprises</h3><p>The monthly bill to stay up, in dollars and naira at the live rate, and which upgrade or swap is cheapest for your load.</p></div>
+            <div><h3><span className="dot blue" aria-hidden="true" />Slow on 2G and 3G</h3><p>About 36% of Nigerian mobile subscriptions were still on 2G in August 2026 (NCC). See load times on 2G, 3G and 4G, and the data cost of each visit.</p></div>
+            <div><h3><span className="dot lime" aria-hidden="true" />Vulnerable packages</h3><p>Every dependency checked live against npm and the OSV database. On its first run it flagged a critical remote code execution bug in next 14.2.35.</p></div>
           </div>
         </section>
 
